@@ -8,7 +8,7 @@ export default function PresistLogin() {
   const [refresh, { isError }] = useRefreshMutation();
 
   const token = useSelector(selectToken);
-
+  console.log(token);
   useEffect(() => {
     async function verifyRefreshToken() {
       try {
