@@ -18,7 +18,7 @@ export function SocketProvider({ children }) {
   //console.log(location);
   useEffect(() => {
     if (!id) return;
-    const newSocket = io("http://localhost:3500", {
+    const newSocket = io("https://chat-app-kvmx.onrender.com", {
       query: { id },
     });
     setSocket(newSocket);
