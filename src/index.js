@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SocketProvider } from "./contexts/SocketProvider";
+import { IdProvider } from "./contexts/IdProvider";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
 //disableReactDevTools();
@@ -14,11 +15,13 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <SocketProvider>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </SocketProvider>
+      <IdProvider>
+        <SocketProvider>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </SocketProvider>
+      </IdProvider>
     </Provider>
   </BrowserRouter>
 );

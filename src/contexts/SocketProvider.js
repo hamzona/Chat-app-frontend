@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import io from "socket.io-client";
 import { useLocation, useParams } from "react-router-dom";
+import { useId } from "./IdProvider";
 
 const SocketContext = React.createContext();
 
@@ -9,21 +10,21 @@ export function useSocket() {
 }
 
 export function SocketProvider({ children }) {
-  const [socket, setSocket] = useState();
-  const { id } = useParams();
-
+  const [socket, setSocket] = useState(null);
+  const { id } = useId();
   const location = useLocation();
   console.log(id);
+
   //console.log(location);
   useEffect(() => {
-    console.log(location);
-    const newSocket = io("https://chat-app-kvmx.onrender.com", {
+    if (!id) return;
+    const newSocket = io("http://localhost:3500", {
       query: { id },
     });
     setSocket(newSocket);
 
     return () => newSocket.close();
-  }, [location]);
+  }, [id]);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

@@ -11,10 +11,8 @@ import { selectUser } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { addMessage, setMessage } from "../features/messages/messgesSlice";
 import Messages from "../features/messages/Messages";
-import { setChats } from "../features/chats/chatsSlice";
 export default function ChatBar() {
   const { id } = useParams();
-  console.log(id);
   const { data, isError, isLoading, isSuccess, error } = useGetChatQuery({
     _id: id,
   });
@@ -43,6 +41,7 @@ export default function ChatBar() {
   }
 
   useEffect(() => {
+    if (!socket) return;
     socket.on("recive-message", ({ message, nickname, chatId }) => {
       console.log(chatId);
       console.log(id);
