@@ -30,7 +30,6 @@ export default function Singup() {
     setValidated(true);
 
     const userData = await singup({ firstname, lastname, nickname, password });
-    console.log(userData?.data);
 
     if (userData?.data) {
       dispatch(

@@ -21,7 +21,6 @@ export default function Chats() {
     content = (
       <ListGroup>
         {chats.map((chat) => {
-          console.log(chat.name === "");
           return (
             <Link
               to={`/dashboard/${chat._id}`}

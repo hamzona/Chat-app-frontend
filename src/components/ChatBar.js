@@ -14,6 +14,7 @@ import Messages from "../features/messages/Messages";
 import { setChats } from "../features/chats/chatsSlice";
 export default function ChatBar() {
   const { id } = useParams();
+  console.log(id);
   const { data, isError, isLoading, isSuccess, error } = useGetChatQuery({
     _id: id,
   });
@@ -43,7 +44,6 @@ export default function ChatBar() {
 
   useEffect(() => {
     socket.on("recive-message", ({ message, nickname, chatId }) => {
-      console.log(message);
       if (chatId === id) {
         dispatch(addMessage({ content: message, nickname }));
       }

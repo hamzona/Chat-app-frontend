@@ -12,13 +12,13 @@ import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <SocketProvider>
-      <BrowserRouter>
+  <BrowserRouter>
+    <Provider store={store}>
+      <SocketProvider>
         <Routes>
           <Route path="/*" element={<App />} />
         </Routes>
-      </BrowserRouter>
-    </SocketProvider>
-  </Provider>
+      </SocketProvider>
+    </Provider>
+  </BrowserRouter>
 );

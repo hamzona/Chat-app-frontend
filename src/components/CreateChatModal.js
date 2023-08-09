@@ -35,7 +35,6 @@ export default function CreateChatModal({ onHide }) {
       name: groupName,
     });
     onHide(false);
-    console.log(chatInfo);
   }
 
   let usersContent;

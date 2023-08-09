@@ -22,8 +22,6 @@ export default function Users({ setActiveKey }) {
   const [createChat] = useCreateChatMutation();
   const navigat = useNavigate();
 
-  console.log(chats);
-
   function isExsistingChat(user) {
     const usersArr = [user.nickname, nickname];
     usersArr.sort();
@@ -70,7 +68,6 @@ export default function Users({ setActiveKey }) {
             <ListGroup.Item
               action
               onClick={() => {
-                console.log(user);
                 hendleClick(user);
               }}
               key={user._id}
