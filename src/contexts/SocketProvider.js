@@ -14,8 +14,9 @@ export function SocketProvider({ children }) {
 
   const location = useLocation();
   console.log(id);
-  console.log(location);
+  //console.log(location);
   useEffect(() => {
+    console.log(location);
     const newSocket = io("https://chat-app-kvmx.onrender.com", {
       query: { id },
     });
