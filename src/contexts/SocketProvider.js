@@ -15,7 +15,9 @@ export function SocketProvider({ children }) {
   const nickname = useSelector(selectUser);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3500/", { query: { nickname } });
+    const newSocket = io("https://chat-app-kvmx.onrender.com", {
+      query: { nickname },
+    });
     setSocket(newSocket);
 
     return () => newSocket.close();

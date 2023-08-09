@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useRefreshMutation } from "../features/auth/authApiSlice";
 import { useSelector } from "react-redux";
 import { selectToken } from "../features/auth/authSlice";
@@ -8,13 +8,11 @@ export default function PresistLogin() {
   const [refresh, { isError }] = useRefreshMutation();
 
   const token = useSelector(selectToken);
-  const [trueSuccess, setTrueSuccess] = useState(false);
 
   useEffect(() => {
     async function verifyRefreshToken() {
       try {
         await refresh();
-        // setTrueSuccess(true);
       } catch (err) {
         console.log(err);
       }
@@ -32,7 +30,7 @@ export default function PresistLogin() {
         <Link to="/login">login</Link>
       </div>
     );
-  } else if (trueSuccess || token) {
+  } else if (token) {
     content = <Outlet />;
   }
 

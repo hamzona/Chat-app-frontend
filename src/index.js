@@ -13,7 +13,6 @@ disableReactDevTools();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    {/* <SocketProvider> */}
     <SocketProvider>
       <BrowserRouter>
         <Routes>
@@ -21,7 +20,5 @@ root.render(
         </Routes>
       </BrowserRouter>
     </SocketProvider>
-
-    {/* </SocketProvider> */}
   </Provider>
 );
