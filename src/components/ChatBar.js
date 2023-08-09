@@ -34,6 +34,7 @@ export default function ChatBar() {
       recipients: data.recipients,
       message: messageValue,
       nickname,
+      ChatId: data._id,
     });
     createMessage({ message: messageValue, nickname, _id: id });
     message.current.value = "";
@@ -41,8 +42,11 @@ export default function ChatBar() {
   }
 
   useEffect(() => {
-    socket.on("recive-message", ({ message, nickname }) => {
-      dispatch(addMessage({ content: message, nickname }));
+    socket.on("recive-message", ({ message, nickname, chatId }) => {
+      console.log(message);
+      if (chatId === id) {
+        dispatch(addMessage({ content: message, nickname }));
+      }
     });
 
     return () => {

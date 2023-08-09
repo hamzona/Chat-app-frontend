@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useParams } from "react-router-dom";
 
 const messageSlice = createSlice({
   name: "message",
@@ -10,6 +11,7 @@ const messageSlice = createSlice({
     },
     addMessage: (state, action) => {
       // console.log(action.payload);
+
       state.messages = [...state.messages, action.payload];
     },
   },
