@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import Login from "./features/auth/Login";
+import DashBoard from "./components/DashBoard";
+import RequireAuth from "./components/RequireAuth";
+import PresistLogin from "./components/PresistLogin";
+import Public from "./components/Public";
+import Singup from "./features/auth/Singup";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Public />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/singup" element={<Singup />} />
+      <Route element={<PresistLogin />}>
+        <Route element={<RequireAuth />}>
+          <Route path={"/dashboard/:id"} element={<DashBoard />} />
+          <Route path={"/dashboard"} element={<DashBoard />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
-
 export default App;
