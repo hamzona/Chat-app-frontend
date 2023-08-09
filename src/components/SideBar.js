@@ -34,7 +34,7 @@ export default function SideBar() {
             <Chats />
           </Tab.Pane>
           <Tab.Pane eventKey={USERS_KEY}>
-            <Users />
+            <Users setActiveKey={setActiveKey} />
           </Tab.Pane>
         </Tab.Content>
         <div className="border-top border-bottom p-2">{nickname}</div>

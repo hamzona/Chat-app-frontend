@@ -1,15 +1,49 @@
 import React from "react";
 import { useGetUsersQuery } from "./userApiSlice";
+import { useCreateChatMutation } from "../chats/chatsApiSlice";
 import { ListGroup } from "react-bootstrap";
-export default function Users() {
+import { useSelector } from "react-redux";
+import { selectUser } from "../auth/authSlice";
+import { useNavigate } from "react-router-dom";
+export default function Users({ setActiveKey }) {
   const { data, isError, isLoading, isSuccess, error } = useGetUsersQuery();
+
+  const [createChat] = useCreateChatMutation();
+  const nickname = useSelector(selectUser);
+  const navigat = useNavigate();
+  async function hendleClick(user) {
+    try {
+      console.log(user);
+
+      const result = await createChat({
+        name: "Chat",
+        recipients: [nickname, user.nickname],
+      });
+      if (result?.data) {
+        navigat(`/dashboard/${result.data?._id}`);
+        setActiveKey("Chats");
+      }
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   let content;
   if (isSuccess) {
     content = (
       <ListGroup>
         {data.map((user) => {
+          if (user.nickname === nickname) return null;
           return (
-            <ListGroup.Item key={user._id}>
+            <ListGroup.Item
+              action
+              onClick={() => {
+                console.log(user);
+                hendleClick(user);
+              }}
+              key={user._id}
+            >
               {`${user.firstname}  ${user.lastname}`}
             </ListGroup.Item>
           );

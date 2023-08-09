@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { SocketProvider } from "./contexts/SocketProvider";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
-disableReactDevTools();
+//disableReactDevTools();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

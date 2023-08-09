@@ -8,7 +8,6 @@ export default function PresistLogin() {
   const [refresh, { isError }] = useRefreshMutation();
 
   const token = useSelector(selectToken);
-  console.log(token);
   useEffect(() => {
     async function verifyRefreshToken() {
       try {
@@ -22,12 +21,11 @@ export default function PresistLogin() {
   }, []);
 
   let content;
-
   if (isError) {
     content = (
       <div>
         You are loged out:
-        <Link to="/login">login</Link>
+        <Link to="/">login</Link>
       </div>
     );
   } else if (token) {

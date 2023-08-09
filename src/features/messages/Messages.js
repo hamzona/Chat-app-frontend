@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { selectMessages } from "./messgesSlice";
 import { selectUser } from "../auth/authSlice";
@@ -6,8 +6,11 @@ import { selectUser } from "../auth/authSlice";
 export default function Messages() {
   const messages = useSelector(selectMessages);
   const nickname = useSelector(selectUser);
+  const lastMessageRef = useRef(null);
 
-  // m-3 d-flex flex-column flex-grow-1 justify-content-end align-items-start
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView({ smooth: true });
+  }, [messages]);
   return (
     <div className="overflow-auto d-flex flex-column flex-grow-1">
       <div
@@ -15,7 +18,6 @@ export default function Messages() {
         style={{ justifyContent: "flex-end" }}
       >
         {messages.map((message, index) => {
-          //console.log(nickname, message.nickname);
           return (
             <div
               key={index}
@@ -26,7 +28,7 @@ export default function Messages() {
               } mr-2`}
             >
               <div
-                className={`rounded p-1  ${
+                className={`rounded p-1 ${
                   nickname === message.nickname
                     ? "bg-primary text-white"
                     : "border"
@@ -46,6 +48,7 @@ export default function Messages() {
             </div>
           );
         })}
+        <div ref={lastMessageRef} />
       </div>
     </div>
   );

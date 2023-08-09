@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import io from "socket.io-client";
-import { selectUser } from "../features/auth/authSlice";
+import { useParams } from "react-router-dom";
 
 const SocketContext = React.createContext();
 
@@ -11,17 +10,16 @@ export function useSocket() {
 
 export function SocketProvider({ children }) {
   const [socket, setSocket] = useState();
-
-  const nickname = useSelector(selectUser);
+  const { id } = useParams();
 
   useEffect(() => {
     const newSocket = io("https://chat-app-kvmx.onrender.com", {
-      query: { nickname },
+      query: { id },
     });
     setSocket(newSocket);
 
     return () => newSocket.close();
-  }, [nickname]);
+  }, [id]);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

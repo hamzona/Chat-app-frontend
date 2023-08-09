@@ -26,13 +26,7 @@ const chatsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Chats"],
     }),
-    /*getMessages: builder.query({
-      query: (data) => ({
-        url: "chats/getMessages",
-        method: "POST",
-        body: { ...data },
-      }),
-    }),*/
+
     createMessage: builder.mutation({
       query: (data) => ({
         url: "chats/createMessage",

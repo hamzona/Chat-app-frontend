@@ -11,6 +11,7 @@ import { selectUser } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { addMessage, setMessage } from "../features/messages/messgesSlice";
 import Messages from "../features/messages/Messages";
+import { setChats } from "../features/chats/chatsSlice";
 export default function ChatBar() {
   const { id } = useParams();
   const { data, isError, isLoading, isSuccess, error } = useGetChatQuery({
@@ -29,8 +30,6 @@ export default function ChatBar() {
     const messageValue = message.current.value;
     if (messageValue === "") return;
 
-    console.log(nickname);
-
     socket.emit("send-message", {
       recipients: data.recipients,
       message: messageValue,
@@ -43,7 +42,6 @@ export default function ChatBar() {
 
   useEffect(() => {
     socket.on("recive-message", ({ message, nickname }) => {
-      console.log(nickname);
       dispatch(addMessage({ content: message, nickname }));
     });
 
@@ -55,7 +53,9 @@ export default function ChatBar() {
   /*Content */
   let content;
   if (data && isSuccess) {
-    dispatch(setMessage(data.messages));
+    setTimeout(() => {
+      dispatch(setMessage(data.messages));
+    }, 1000);
     content = (
       <div className="d-flex flex-column flex-grow-1">
         <Messages />
