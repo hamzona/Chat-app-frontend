@@ -21,6 +21,7 @@ export default function Chats() {
     content = (
       <ListGroup>
         {chats.map((chat) => {
+          console.log(chat.name === "");
           return (
             <Link
               to={`/dashboard/${chat._id}`}
@@ -28,8 +29,16 @@ export default function Chats() {
               style={{ textDecoration: "none" }}
             >
               <ListGroup.Item action active={chat._id === id}>
-                {`${chat.name} `}{" "}
-                <div className="text-muted">{chat.recipients.join(", ")}</div>{" "}
+                {chat.name === "" ? chat.recipients.join(", ") : chat.name}
+                {chat.name === "" ? null : (
+                  <div
+                    className={`text-muted ${
+                      chat._id === id ? "text-white-50" : ""
+                    }`}
+                  >
+                    {chat.recipients.join(", ")}
+                  </div>
+                )}{" "}
               </ListGroup.Item>
             </Link>
           );
@@ -41,6 +50,5 @@ export default function Chats() {
   } else if (isError) {
     content = <div>{JSON.stringify(error)}</div>;
   }
-  // console.log(chats);
   return <div>{content}</div>;
 }

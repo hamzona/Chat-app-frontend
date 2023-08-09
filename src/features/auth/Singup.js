@@ -13,20 +13,34 @@ export default function Singup() {
 
   const [singup] = useSingupMutation();
 
+  const [validated, setValidated] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  async function hendleSubmit(e) {
-    e.preventDefault();
-    const userData = await singup({ firstname, lastname, nickname, password });
+  async function hendleSubmit(event) {
+    event.preventDefault();
 
-    dispatch(
-      setCredentials({
-        accessToken: userData.accessToken,
-        user: userData.nickname,
-      })
-    );
-    navigate("/dashboard");
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+
+    const userData = await singup({ firstname, lastname, nickname, password });
+    console.log(userData?.data);
+
+    if (userData?.data) {
+      dispatch(
+        setCredentials({
+          accessToken: userData.accessToken,
+          user: userData.nickname,
+        })
+      );
+      navigate("/dashboard");
+    }
   }
   return (
     <Container
@@ -37,11 +51,12 @@ export default function Singup() {
         alignItems: "center",
         height: "100vh",
       }}
-      //className="align-items-centar d-flex flex-column h-100 align-items-center justify-content-center"
     >
       <h1>Singup</h1>
 
       <Form
+        noValidate
+        validated={validated}
         onSubmit={hendleSubmit}
         style={{ display: "flex", flexDirection: "column" }}
       >
@@ -53,6 +68,7 @@ export default function Singup() {
             value={nickname}
             onChange={(e) => setNickName(e.target.value)}
             placeholder="nickname"
+            required
           />
         </Form.Group>
         <Form.Group>
@@ -63,6 +79,7 @@ export default function Singup() {
             value={firstname}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="firstname"
+            required
           />
         </Form.Group>
         <Form.Group>
@@ -73,6 +90,7 @@ export default function Singup() {
             value={lastname}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="lastname"
+            required
           />
         </Form.Group>
 
@@ -84,6 +102,7 @@ export default function Singup() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="password"
+            required
           />
         </Form.Group>
 
@@ -91,7 +110,7 @@ export default function Singup() {
           submit
         </Button>
         <Form.Text muted>
-          If you have account already <Link to={"/login"}>login</Link>
+          If you have account already <Link to={"/"}>login</Link>
         </Form.Text>
       </Form>
     </Container>

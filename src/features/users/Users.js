@@ -1,6 +1,9 @@
 import React from "react";
 import { useGetUsersQuery } from "./userApiSlice";
-import { useCreateChatMutation } from "../chats/chatsApiSlice";
+import {
+  useCreateChatMutation,
+  useGetChatsQuery,
+} from "../chats/chatsApiSlice";
 import { ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { selectUser } from "../auth/authSlice";
@@ -8,22 +11,50 @@ import { useNavigate } from "react-router-dom";
 export default function Users({ setActiveKey }) {
   const { data, isError, isLoading, isSuccess, error } = useGetUsersQuery();
 
-  const [createChat] = useCreateChatMutation();
   const nickname = useSelector(selectUser);
-  const navigat = useNavigate();
-  async function hendleClick(user) {
-    try {
-      console.log(user);
 
+  const {
+    data: chats,
+    isError: isChatError,
+    isSuccess: isChatSuccess,
+  } = useGetChatsQuery(nickname);
+
+  const [createChat] = useCreateChatMutation();
+  const navigat = useNavigate();
+
+  console.log(chats);
+
+  function isExsistingChat(user) {
+    const usersArr = [user.nickname, nickname];
+    usersArr.sort();
+    let isExsisting = false;
+
+    chats.forEach((chat) => {
+      let exsistingUsersArr = [...chat.recipients];
+      exsistingUsersArr.sort();
+
+      if (JSON.stringify(exsistingUsersArr) === JSON.stringify(usersArr)) {
+        isExsisting = true;
+
+        setActiveKey("Chats");
+        navigat(`/dashboard/${chat._id}`);
+      }
+    });
+
+    return isExsisting;
+  }
+  async function hendleClick(user) {
+    const i = isExsistingChat(user);
+    if (i) return;
+    try {
       const result = await createChat({
-        name: "Chat",
+        name: "",
         recipients: [nickname, user.nickname],
       });
       if (result?.data) {
         navigat(`/dashboard/${result.data?._id}`);
         setActiveKey("Chats");
       }
-      console.log(result);
     } catch (err) {
       console.log(err);
     }
@@ -44,7 +75,10 @@ export default function Users({ setActiveKey }) {
               }}
               key={user._id}
             >
-              {`${user.firstname}  ${user.lastname}`}
+              <div className="font-weight-bold">{user.nickname}</div>
+              <div className="text-muted small">
+                {`${user.firstname}  ${user.lastname}`}
+              </div>
             </ListGroup.Item>
           );
         })}
