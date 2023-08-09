@@ -18,8 +18,8 @@ export default function ChatBar() {
   });
 
   const dispatch = useDispatch();
-
   const [createMessage] = useCreateMessageMutation();
+
   const nickname = useSelector(selectUser);
   const socket = useSocket();
   const message = useRef("");
@@ -54,7 +54,6 @@ export default function ChatBar() {
   /*Content */
   let content;
   if (data && isSuccess) {
-    dispatch(setMessage(data.messages));
     content = (
       <div className="d-flex flex-column flex-grow-1">
         <Messages />
@@ -73,6 +72,9 @@ export default function ChatBar() {
         </Form>
       </div>
     );
+    setTimeout(() => {
+      dispatch(setMessage(data.messages));
+    }, 1000);
   } else if (isLoading) {
     content = <div>Loading...</div>;
   } else if (isError) {
@@ -80,6 +82,5 @@ export default function ChatBar() {
     content = null;
   }
 
-  // console.log(data);
   return content;
 }
