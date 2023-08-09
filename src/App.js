@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./features/auth/Login";
 import DashBoard from "./components/DashBoard";
 import RequireAuth from "./components/RequireAuth";
@@ -8,19 +8,17 @@ import Singup from "./features/auth/Singup";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Public />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/singup" element={<Singup />} />
-        <Route element={<PresistLogin />}>
-          <Route element={<RequireAuth />}>
-            <Route path={"/dashboard/:id"} element={<DashBoard />} />
-            <Route path={"/dashboard"} element={<DashBoard />} />
-          </Route>
+    <Routes>
+      <Route path="/" element={<Public />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/singup" element={<Singup />} />
+      <Route element={<PresistLogin />}>
+        <Route element={<RequireAuth />}>
+          <Route path={"/dashboard/:id"} element={<DashBoard />} />
+          <Route path={"/dashboard"} element={<DashBoard />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
+      </Route>
+    </Routes>
   );
 }
 export default App;
