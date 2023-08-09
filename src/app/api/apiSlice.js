@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials, logOut } from "../../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://chat-app-kvmx.onrender.com/",
+  baseUrl: "https://chat-app-kvmx.onrender.com",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
@@ -20,7 +20,6 @@ const fetchBaseQueryWithReAuth = async (args, api, extraOptions) => {
   if (result?.error?.originalStatus === 403) {
     const refreshResult = await baseQuery("/refresh", api, extraOptions);
     if (refreshResult?.data) {
-      // const user = api.getState.auth.user;
       api.dispatch(
         setCredentials({
           accessToken: refreshResult.data.accessToken,
